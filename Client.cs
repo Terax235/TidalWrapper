@@ -35,6 +35,9 @@ namespace TidalWrapper
             }
         }
 
+        /// <summary>
+        /// Returns the current authorization data
+        /// </summary>
         public FormattedAuth? Auth
         {
             get
@@ -44,11 +47,19 @@ namespace TidalWrapper
             }
         }
 
+        /// <summary>
+        /// Returns the users country code
+        /// </summary>
         public string? CountryCode
         {
             get { return AuthCache?.User.CountryCode; }
         }
 
+        /// <summary>
+        /// Uses an interactive prompt to authorize using a device code. You will have to open the url that will be printed and login with your account to generate an access token.
+        /// </summary>
+        /// <returns>Whether the authorization was successful or not</returns>
+        /// <exception cref="Exception">Exception if the authorization errored at some point</exception>
         public async Task<bool> LoginWithDeviceCode()
         {
             DeviceAuthorization deviceCode = await AuthEngine.GetDeviceCode();
@@ -67,6 +78,12 @@ namespace TidalWrapper
             }
         }
 
+        /// <summary>
+        /// Authorizes using a given refresh token
+        /// </summary>
+        /// <param name="refreshToken">The refresh token to use</param>
+        /// <returns>Whether the authorization was successful or not</returns>
+        /// <exception cref="Exception">Exception if the authorization errored at some point</exception>
         public async Task<bool> LoginWithRefreshToken(string refreshToken)
         {
             OAuthToken oAuthToken = await AuthEngine.GetOAuthToken(LoginMethod.RefreshToken, refreshToken, ClientId);
@@ -84,6 +101,10 @@ namespace TidalWrapper
             }
         }
 
+        /// <summary>
+        /// Interactive device code prompt check
+        /// </summary>
+        /// <returns>Task</returns>
         private async Task CheckDeviceCode()
         {
             if (DeviceCodeTimer == null) { return; }

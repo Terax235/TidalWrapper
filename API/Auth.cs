@@ -3,6 +3,9 @@ using TidalWrapper.Responses;
 
 namespace TidalWrapper.API
 {
+    /// <summary>
+    /// Authorization Engine
+    /// </summary>
     internal class Auth : Engine
     {
         private readonly string clientId;
@@ -10,12 +13,19 @@ namespace TidalWrapper.API
         {
             this.clientId = clientId;
         }
+
+        /// <summary>
+        /// Gets a device code that can be used to authorize
+        /// </summary>
+        /// <returns>Device Authorization data</returns>
+        /// <exception cref="APIException">API exception</exception>
+        /// <exception cref="Exception">Exception if there was some internal error</exception>
         public async Task<DeviceAuthorization> GetDeviceCode()
         {
             KeyValuePair<string, string>[] content =
             {
-                new KeyValuePair<string, string>("client_id", clientId),
-                new KeyValuePair<string, string>("scope", "r_usr+w_usr+w_sub")
+                new("client_id", clientId),
+                new("scope", "r_usr+w_usr+w_sub")
             };
             FormUrlEncodedContent requestContent = new(content);
             Response<DeviceAuthorization> deviceCode = await Request.PostJsonAsync<DeviceAuthorization>(httpClient, "https://auth.tidal.com/v1/oauth2/device_authorization", requestContent);
@@ -33,6 +43,15 @@ namespace TidalWrapper.API
             }
         }
 
+        /// <summary>
+        /// Returns authorization data for a given login method
+        /// </summary>
+        /// <param name="loginMethod">Login method to use</param>
+        /// <param name="codeOrToken">The according token or device code</param>
+        /// <param name="clientId">The client id to authorize with</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException">Invalid LoginMethod</exception>
+        /// <exception cref="APIException">API request failure</exception>
         public async Task<OAuthToken> GetOAuthToken(LoginMethod loginMethod, string codeOrToken, string clientId)
         {
             // Choose keys according to login method
@@ -65,6 +84,9 @@ namespace TidalWrapper.API
         }
     }
 
+    /// <summary>
+    /// Represents login methods
+    /// </summary>
     internal enum LoginMethod
     {
         RefreshToken = 1,

@@ -15,11 +15,18 @@
             timer = new Timer(async state => await ExecuteAsyncOperation(operation), null, 0, intervalInSeconds * 1000);
         }
 
+        /// <summary>
+        /// Shows whether the timer is running or already stopped
+        /// </summary>
         public bool IsStopped
         {
             get { return isStopped; }
         }
 
+        /// <summary>
+        /// Awaits the timer completion
+        /// </summary>
+        /// <returns>Async Task</returns>
         public async Task WaitForCompletion()
         {
             while (!IsStopped)
@@ -28,6 +35,11 @@
             }
         }
 
+        /// <summary>
+        /// Executes the timers operation. Used by the Timer interval
+        /// </summary>
+        /// <param name="operation">Operation function to execute</param>
+        /// <returns></returns>
         private async Task ExecuteAsyncOperation(Func<Task> operation)
         {
             if (expirationInSeconds <= 0)
@@ -49,6 +61,9 @@
             expirationInSeconds -= intervalInSeconds;
         }
 
+        /// <summary>
+        /// Stops and cancels the timer
+        /// </summary>
         public void Stop()
         {
             timer.Dispose();
