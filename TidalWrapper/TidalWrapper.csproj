@@ -4,7 +4,7 @@
 	<TargetFramework>net7.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	<Title>Tidal-Wrapper</Title>
+	<Title>TidalWrapper</Title>
 	<Description>An unofficial API wrapper for the music streaming service Tidal</Description>
 	<RepositoryUrl>https://github.com/Terax235/TidalWrapper</RepositoryUrl>
 	<PackageTags>tidal; api-wrapper; music; api</PackageTags>
@@ -12,7 +12,6 @@
 	<Version>$(VersionPrefix)0.1.0</Version>
     <EnablePackageValidation>true</EnablePackageValidation>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <!-- If all members are not documented, you can disable the compiler warnings -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 	<PackageProjectUrl>https://github.com/Terax235/TidalWrapper</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -26,9 +25,9 @@
 	  <PrivateAssets>all</PrivateAssets>
 	</PackageReference>
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <None Include="LICENSE" Pack="true" PackagePath=""/>
-	<None Include="icon.png" Pack="true" PackagePath=""/>
-	<None Include="README.md" Pack="true" PackagePath=""/>
+    <None Include="../LICENSE" Pack="true" PackagePath=""/>
+	<None Include="../assets/icon.png" Pack="true" PackagePath=""/>
+	<None Include="../README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>

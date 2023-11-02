@@ -3,23 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TidalWrapper", "TidalWrapper.csproj", "{2BADF5D8-DF75-4EE0-A38B-6B40F0CF2342}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TidalWrapper", "TidalWrapper\TidalWrapper.csproj", "{BE1D8767-0012-4F31-BDA3-D72AEF0B7736}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2BADF5D8-DF75-4EE0-A38B-6B40F0CF2342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BADF5D8-DF75-4EE0-A38B-6B40F0CF2342}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BADF5D8-DF75-4EE0-A38B-6B40F0CF2342}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BADF5D8-DF75-4EE0-A38B-6B40F0CF2342}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4C63F06E-F6CC-4E29-B54B-9788269C560D}
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE1D8767-0012-4F31-BDA3-D72AEF0B7736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE1D8767-0012-4F31-BDA3-D72AEF0B7736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE1D8767-0012-4F31-BDA3-D72AEF0B7736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE1D8767-0012-4F31-BDA3-D72AEF0B7736}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
