@@ -6,14 +6,14 @@ You can install the package right from [NuGet](https://www.nuget.org/packages/Ti
 
 ## Features
 - Login using device codes (with prompt) or refresh token
-- Search for tracks using a search query
+- Search for tracks using a search query, id or url
 
 ## Documentation
 The documentation will be updated soon.
 
 
 ## Examples
-There is a [project with examples](TidalWrapperExamples/) that works with this library.
+There is a [project with examples](https://github.com/Terax235/TidalWrapper/tree/main/TidalWrapperExamples) that works with this library.
 
 ### Up Next
 Visit my [Projects page](https://github.com/Terax235/TidalWrapper/projects) to see what's coming up next.
