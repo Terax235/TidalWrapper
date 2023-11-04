@@ -3,12 +3,6 @@ using Newtonsoft.Json.Converters;
 
 namespace TidalWrapper.Responses
 {
-    public class FormattedAuth
-    {
-        public required string AccessToken { get; set; }
-        public required string RefreshToken { get; set; }
-        public required string ClientId { get; set; }
-    }
     public class OAuthToken
     {
         [JsonProperty("access_token")]

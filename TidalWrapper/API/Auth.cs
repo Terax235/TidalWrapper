@@ -1,18 +1,15 @@
 ﻿using TidalWrapper.Exceptions;
 using TidalWrapper.Responses;
+using TidalWrapper.Requests;
 
-namespace TidalWrapper.API
+namespace TidalWrapper.Engines
 {
     /// <summary>
     /// Authorization Engine
     /// </summary>
-    internal class Auth : Engine
+    internal class AuthEngine : Engine
     {
-        private readonly string clientId;
-        public Auth(string clientId)
-        {
-            this.clientId = clientId;
-        }
+        public AuthEngine(Client client, bool useToken) : base(client, useToken) { }
 
         /// <summary>
         /// Gets a device code that can be used to authorize
@@ -24,7 +21,7 @@ namespace TidalWrapper.API
         {
             KeyValuePair<string, string>[] content =
             {
-                new("client_id", clientId),
+                new("client_id", client.ClientId),
                 new("scope", "r_usr+w_usr+w_sub")
             };
             FormUrlEncodedContent requestContent = new(content);
@@ -58,16 +55,16 @@ namespace TidalWrapper.API
             KeyValuePair<string, string>[] content = loginMethod switch
             {
                 LoginMethod.DeviceCode => new KeyValuePair<string, string>[] {
-                        new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:device_code"),
-                        new KeyValuePair<string, string>("device_code", codeOrToken),
-                        new KeyValuePair<string, string>("client_id", clientId),
-                        new KeyValuePair<string, string>("scope", "r_usr+w_usr+w_sub")
+                        new("grant_type", "urn:ietf:params:oauth:grant-type:device_code"),
+                        new("device_code", codeOrToken),
+                        new("client_id", clientId),
+                        new("scope", "r_usr+w_usr+w_sub")
                     },
                 LoginMethod.RefreshToken => new KeyValuePair<string, string>[] {
-                        new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                        new KeyValuePair<string, string>("refresh_token", codeOrToken),
-                        new KeyValuePair<string, string>("client_id", clientId),
-                        new KeyValuePair<string, string>("scope", "r_usr+w_usr+w_sub")
+                        new("grant_type", "refresh_token"),
+                        new("refresh_token", codeOrToken),
+                        new("client_id", clientId),
+                        new("scope", "r_usr+w_usr+w_sub")
                     },
                 _ => throw new NotImplementedException(),
             };

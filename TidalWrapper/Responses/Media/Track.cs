@@ -1,13 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-using TidalWrapper.API;
-using TidalWrapper.Exceptions;
+using TidalWrapper.Engines;
 
 namespace TidalWrapper.Responses
 {
@@ -30,14 +23,82 @@ namespace TidalWrapper.Responses
     }
     public class Track
     {
-
         [JsonProperty("id")]
         public required int Id { get; set; }
+
         [JsonProperty("title")]
         public required string Title { get; set; }
+
         [JsonProperty("url")]
         public required string Url { get; set; }
 
+        [JsonProperty("duration")]
+        public required int Duration { get; set; }
+
+        [JsonProperty("replayGain")]
+        public required float ReplayGain { get; set; }
+
+        [JsonProperty("peak")]
+        public required float Peak { get; set; }
+
+        [JsonProperty("allowStreaming")]
+        public required bool AllowStreaming { get; set; }
+
+        [JsonProperty("streamReady")]
+        public required bool StreamReady { get; set; }
+
+        [JsonProperty("adSupportedStreamReady")]
+        public required bool AdSupportedStreamReady { get; set; }
+
+        [JsonProperty("djReady")]
+        public required bool DjReady { get; set; }
+
+        [JsonProperty("stemReady")]
+        public required bool SteamReady { get; set; }
+
+        [JsonProperty("streamStartDate")]
+        public required DateTime StreamStartDate { get; set; }
+
+        [JsonProperty("premiumStreamingOnly")]
+        public required bool PremiumStreamingOnly { get; set; }
+
+        [JsonProperty("trackNumber")]
+        public required int TrackNumber { get; set; }
+
+        [JsonProperty("volumeNumber")]
+        public required int VolumeNumber { get; set; }
+
+        [JsonProperty("version")]
+        public string? Version { get; set; }
+
+        [JsonProperty("popularity")]
+        public required int Popularity { get; set; }
+
+        [JsonProperty("copyright")]
+        public required string Copyright { get; set; }
+
+        [JsonProperty("isrc")]
+        public required string ISRC { get; set; }
+
+        [JsonProperty("editable")]
+        public required bool Editable { get; set; }
+
+        [JsonProperty("explicit")]
+        public required bool Explicit { get; set; }
+
+        [JsonProperty("audioQuality")]
+        public required string Quality { get; set; }
+
+        [JsonProperty("album")]
+        public required AlbumBase Album { get; set; }
+
+        [JsonProperty("artist")]
+        public required ArtistBase Artist { get; set; }
+
+        [JsonProperty("artists")]
+        public required ArtistBase[] Artists { get; set; }
+
+        [Obsolete("Please use the track engine for retrieving stream information on a track instead.")]
         public async Task<StreamInfo> GetStreamInfo()
         {
             return await StaticEngine.GetStreamInfo(this);
@@ -82,7 +143,8 @@ namespace TidalWrapper.Responses
         [JsonIgnore]
         public StreamResource? StreamResource
         {
-            get {
+            get
+            {
                 byte[] byteArray = Convert.FromBase64String(Manifest);
                 string decodedString = Encoding.UTF8.GetString(byteArray);
                 return JsonConvert.DeserializeObject<StreamResource>(decodedString);

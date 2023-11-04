@@ -1,50 +1,27 @@
-﻿using TidalWrapper.API;
+﻿using TidalWrapper.Engines;
 using TidalWrapper.Responses;
 using TidalWrapper.Util;
 using System.Net;
 using TidalWrapper.Exceptions;
-using System.Net.Http.Headers;
-using System.Net.Http;
 
 namespace TidalWrapper
 {
     public class Client
     {
-        readonly string ClientId;
+        public readonly string ClientId;
         private string? DeviceCode;
         private CustomTimer? DeviceCodeTimer;
-        private OAuthToken? AuthCache;
-
-        internal Auth AuthEngine;
-        public Search SearchEngine;
+        public OAuthToken? AuthCache;
+        internal AuthEngine Auth;
+        public SearchEngine SearchEngine;
+        public TrackEngine Tracks;
 
         public Client(string clientId)
         {
-            this.ClientId = clientId;
-            AuthEngine = new(clientId);
-            SearchEngine = new();
-        }
-
-        /// <summary>Updates the authorization for engines that need it.</summary>
-        private void UpdateAuth()
-        {
-            if (AuthCache != null)
-            {
-                SearchEngine.SetAuth(AuthCache);
-                StaticEngine.SetAuth(AuthCache);
-            }
-        }
-
-        /// <summary>
-        /// Returns the current authorization data
-        /// </summary>
-        public FormattedAuth? Auth
-        {
-            get
-            {
-                if (AuthCache == null || AuthCache.RefreshToken == null) return null;
-                else return new FormattedAuth { AccessToken = AuthCache.AccessToken, RefreshToken = AuthCache.RefreshToken, ClientId = ClientId };
-            }
+            ClientId = clientId;
+            Auth = new(this, false);
+            SearchEngine = new(this, true);
+            Tracks = new(this, true);
         }
 
         /// <summary>
@@ -62,14 +39,14 @@ namespace TidalWrapper
         /// <exception cref="Exception">Exception if the authorization errored at some point</exception>
         public async Task<bool> LoginWithDeviceCode()
         {
-            DeviceAuthorization deviceCode = await AuthEngine.GetDeviceCode();
+            DeviceAuthorization deviceCode = await Auth.GetDeviceCode();
             Console.WriteLine("Open up https://" + deviceCode.VerificationUriComplete + " and login with your account. You have " + deviceCode.ExpiresIn + " seconds to complete this step.");
             this.DeviceCode = deviceCode.DeviceCode;
             DeviceCodeTimer = new(10, deviceCode.ExpiresIn, CheckDeviceCode);
             await DeviceCodeTimer.WaitForCompletion();
             if (AuthCache != null)
             {
-                UpdateAuth();
+                StaticEngine.SetAuth(AuthCache);
                 return true;
             }
             else
@@ -86,13 +63,13 @@ namespace TidalWrapper
         /// <exception cref="Exception">Exception if the authorization errored at some point</exception>
         public async Task<bool> LoginWithRefreshToken(string refreshToken)
         {
-            OAuthToken oAuthToken = await AuthEngine.GetOAuthToken(LoginMethod.RefreshToken, refreshToken, ClientId);
+            OAuthToken oAuthToken = await Auth.GetOAuthToken(LoginMethod.RefreshToken, refreshToken, ClientId);
             if (oAuthToken != null)
             {
                 // Store same refresh token since refresh token login does not update the current one.
                 oAuthToken.RefreshToken ??= refreshToken;
                 AuthCache = oAuthToken;
-                UpdateAuth();
+                StaticEngine.SetAuth(AuthCache);
                 return true;
             }
             else
@@ -116,7 +93,7 @@ namespace TidalWrapper
             Console.WriteLine("Checking for token...");
             try
             {
-                OAuthToken oAuthToken = await AuthEngine.GetOAuthToken(LoginMethod.DeviceCode, DeviceCode, ClientId);
+                OAuthToken oAuthToken = await Auth.GetOAuthToken(LoginMethod.DeviceCode, DeviceCode, ClientId);
                 DeviceCodeTimer.Stop();
                 Console.WriteLine("Successfully logged in using device code.");
                 AuthCache = oAuthToken;

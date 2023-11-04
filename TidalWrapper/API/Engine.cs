@@ -1,7 +1,6 @@
-﻿using System.Net.Http.Headers;
-using TidalWrapper.Responses;
+﻿using TidalWrapper.Requests;
 
-namespace TidalWrapper.API
+namespace TidalWrapper.Engines
 {
     /// <summary>
     /// Abstract Engine
@@ -11,15 +10,13 @@ namespace TidalWrapper.API
         /// <summary>
         /// HTTP client for the engine
         /// </summary>
-        internal readonly HttpClient httpClient = Request.CreateClient();
+        internal readonly APIClient httpClient;
+        internal readonly Client client;
 
-        /// <summary>
-        /// Updates authorization data for the engine
-        /// </summary>
-        /// <param name="auth"></param>
-        internal void SetAuth(OAuthToken auth)
+        public Engine(Client client, bool useAuthorizationToken)
         {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(auth.TokenType, auth.AccessToken);
+            this.client = client;
+            httpClient = new(client, useAuthorizationToken);
         }
     }
 }
