@@ -103,12 +103,13 @@ namespace TidalWrapper.Engines
         /// Retrieves stream info for a given track
         /// </summary>
         /// <param name="track">Track entity</param>
+        /// <param name="countryCode">Country code</param>
         /// <returns>Stream info for the track</returns>
         /// <exception cref="APIException">Request failure</exception>
         /// <exception cref="Exception">Misc. failure</exception>
-        public async Task<StreamInfo> GetStreamInfo(Track track)
+        public async Task<StreamInfo> GetStreamInfo(Track track, string? countryCode = "US")
         {
-            string url = $"https://api.tidal.com/v1/tracks/{track.Id}/playbackinfopostpaywall?countryCode=DE&audioquality=HI_RES&playbackmode=STREAM&assetpresentation=FULL";
+            string url = $"https://api.tidal.com/v1/tracks/{track.Id}/playbackinfopostpaywall?countryCode={countryCode}&audioquality={track.Quality}&playbackmode=STREAM&assetpresentation=FULL";
             Response<StreamInfo> streamInfo = await Request.GetJsonAsync<StreamInfo>(httpClient, url);
             if (streamInfo.Data != null)
             {
