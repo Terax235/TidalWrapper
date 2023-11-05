@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Http.Headers;
 using TidalWrapper.Exceptions;
 using TidalWrapper.Responses;
+using TidalWrapper.Requests;
 
-namespace TidalWrapper.API
+namespace TidalWrapper.Engines
 {
     /// <summary>
     /// Static Engine
     /// </summary>
     internal static class StaticEngine
     {
-        internal static readonly HttpClient httpClient = Request.CreateClient();
+        internal static readonly APIClient httpClient = new();
 
         /// <summary>
         /// Retrieves stream info for a given track

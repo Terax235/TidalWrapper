@@ -1,14 +1,16 @@
-﻿using System.Net.Http.Headers;
-using TidalWrapper.Responses;
+﻿using TidalWrapper.Responses;
 using TidalWrapper.Exceptions;
+using TidalWrapper.Requests;
 
-namespace TidalWrapper.API
+namespace TidalWrapper.Engines
 {
     /// <summary>
     /// Search Engine (Used for track/album/playlist search)
     /// </summary>
-    public class Search : Engine
+    [Obsolete("Using the search engine is deprecated. Future methods will go in according engines, including Track Engine, Album engine etc.")]
+    public class SearchEngine : Engine
     {
+        public SearchEngine(Client client, bool useToken) : base(client, useToken) { }
         /// <summary>
         /// Searches for tracks using a search query
         /// </summary>
