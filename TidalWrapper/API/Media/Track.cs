@@ -77,13 +77,26 @@ namespace TidalWrapper.Engines
         /// <exception cref="Exception">Misc. failure</exception>
         public async Task<Track> GetTrackByUrl(string trackUrl, string? countryCode = "US")
         {
-            string[] splittedTrack = trackUrl.Split("track/");
-            if (!TrackUtil.IsValidUrl(trackUrl) || splittedTrack.Length == 0)
+            // Remove query params from string
+            int queryIndex = trackUrl.IndexOf('?');
+            if (queryIndex >= 0)
             {
-                throw new ArgumentException("Invalid track url format.");
+                trackUrl = trackUrl.Substring(0, queryIndex);
             }
 
-            string trackId = splittedTrack[1].Split("/")[0];
+            if (!TrackUtil.IsValidUrl(trackUrl))
+            {
+                throw new ArgumentException("Invalid track URL format.");
+            }
+
+            // Extract track id
+            string[] splittedTrack = trackUrl.Split("track/");
+            if (splittedTrack.Length < 2 || string.IsNullOrWhiteSpace(splittedTrack[1]))
+            {
+                throw new ArgumentException("Track ID could not be extracted.");
+            }
+
+            string trackId = splittedTrack[1].Split('/')[0];
             Response<Track> track = await Request.GetJsonAsync<Track>(httpClient, $"https://api.tidal.com/v1/tracks/{trackId}?countryCode={countryCode}");
             if (track.Data != null)
             {
@@ -98,6 +111,7 @@ namespace TidalWrapper.Engines
                 throw new Exception("Could not get track.");
             }
         }
+
 
         /// <summary>
         /// Retrieves stream info for a given track
