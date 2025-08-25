@@ -126,7 +126,7 @@ namespace TidalWrapper.Engines
         }
     }
 
-    internal partial class TrackUtil
+    public partial class TrackUtil
     {
         [GeneratedRegex("^[0-9]+$")]
         private static partial Regex TrackId();
