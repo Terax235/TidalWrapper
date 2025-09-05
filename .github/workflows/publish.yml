@@ -32,7 +32,9 @@ jobs:
 
     # Install the .NET SDK indicated in the global.json file
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
 
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
     - run: dotnet pack TidalWrapper -c Release -o ${{ env.NuGetDirectory }}
@@ -51,7 +53,9 @@ jobs:
     steps:
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
 
       # Download the NuGet package created in the previous job
       - uses: actions/download-artifact@v4
@@ -74,7 +78,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
     - name: Run tests
       run: dotnet test --configuration Release
 
@@ -94,7 +100,9 @@ jobs:
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
 
       # Publish all NuGet packages to NuGet.org and GitHub
       # Prepare GitHub publishing
