@@ -9,7 +9,7 @@
 	<RepositoryUrl>https://github.com/Terax235/TidalWrapper</RepositoryUrl>
 	<PackageTags>tidal; api-wrapper; music; api</PackageTags>
 	<Authors>Terax235</Authors>
-	<Version>$(VersionPrefix)0.2.2</Version>
+	<Version>$(VersionPrefix)0.2.3</Version>
     <EnablePackageValidation>true</EnablePackageValidation>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
