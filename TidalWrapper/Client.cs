@@ -13,6 +13,7 @@ namespace TidalWrapper
         private CustomTimer? DeviceCodeTimer;
         public OAuthToken? AuthCache;
         internal AuthEngine Auth;
+        [Obsolete("Using the search engine is deprecated. Future methods will go in according engines, including Track Engine, Album engine etc.")]
         public SearchEngine SearchEngine;
         public TrackEngine Tracks;
 
@@ -41,7 +42,7 @@ namespace TidalWrapper
         {
             DeviceAuthorization deviceCode = await Auth.GetDeviceCode();
             Console.WriteLine("Open up https://" + deviceCode.VerificationUriComplete + " and login with your account. You have " + deviceCode.ExpiresIn + " seconds to complete this step.");
-            this.DeviceCode = deviceCode.DeviceCode;
+            DeviceCode = deviceCode.DeviceCode;
             DeviceCodeTimer = new(10, deviceCode.ExpiresIn, CheckDeviceCode);
             await DeviceCodeTimer.WaitForCompletion();
             if (AuthCache != null)
@@ -106,7 +107,7 @@ namespace TidalWrapper
                 }
                 else
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }

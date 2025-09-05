@@ -5,9 +5,8 @@ using TidalWrapper.Requests;
 
 namespace TidalWrapper.Engines
 {
-    public class TrackEngine : Engine
+    public class TrackEngine(Client client, bool useToken) : Engine(client, useToken)
     {
-        public TrackEngine(Client client, bool useToken) : base(client, useToken) { }
 
         /// <summary>
         /// Searches for tracks using a search query
@@ -96,7 +95,7 @@ namespace TidalWrapper.Engines
                 throw new ArgumentException("Track ID could not be extracted.");
             }
 
-            string trackId = splittedTrack[1].Split('/')[0];
+            string trackId = splittedTrack[1].Split('/')[0].Split('?')[0]; // Split id before / or ? characters
             Response<Track> track = await Request.GetJsonAsync<Track>(httpClient, $"https://api.tidal.com/v1/tracks/{trackId}?countryCode={countryCode}");
             if (track.Data != null)
             {
@@ -145,7 +144,7 @@ namespace TidalWrapper.Engines
         [GeneratedRegex("^[0-9]+$")]
         private static partial Regex TrackId();
 
-        [GeneratedRegex("^(https?://)?(www\\.)?tidal\\.com/((browse/track/|track/)\\d+)(/)?$")]
+        [GeneratedRegex("^(https?://)?(www\\.)?tidal\\.com/((browse/track/|track/)\\d+)(/u)?(/)?(\\?.*)?(#.*)?$")]
         private static partial Regex TrackUrl();
 
         public static bool IsValidId(string trackId)

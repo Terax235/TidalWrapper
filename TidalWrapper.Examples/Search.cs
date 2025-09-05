@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-using TidalWrapper;
-using TidalWrapper.Responses;
+﻿using TidalWrapper.Responses;
 
-namespace SearchDemo
+namespace TidalWrapper.Examples
 {
     public class Search
     {
